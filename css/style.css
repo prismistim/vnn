@@ -1,0 +1,31 @@
+a.title{
+  color: #FFFFFF;
+  font-size: 1.7em;
+  font-weight: 200;
+}
+
+a.title:hover{
+  text-decoration: none;
+  color: #ec1153;
+}
+
+header{
+  padding: 15px 0;
+  margin-bottom: 10px;
+  background-color: #424242;
+  color: #FFFFFF;
+}
+
+.box{
+  float: left;
+  width: 48%;
+  margin: 1%;
+}
+
+.is-selected{
+  background-color: #ec1153;
+}
+
+canvas#preview{
+  display: none;
+}
