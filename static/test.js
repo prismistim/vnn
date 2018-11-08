@@ -3,7 +3,7 @@ var canvas = document.querySelector("#preview").getContext('2d');
 var canvas_ = document.querySelector("#preview_").getContext('2d');
 // load pre-trained model
 let model;
-tf.loadModel('model/model.json')
+tf.loadModel('../model/model.json')
   .then(pretrainedModel => {
     model = pretrainedModel;
     document.querySelector('#prediction-btn').classList.remove('disabled');
