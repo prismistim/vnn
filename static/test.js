@@ -22,37 +22,6 @@ function getImageData() {
   return imageData;
 }
 
-function getAccuracyScores(imageData) {
-  console.log("入った");
-  const score = tf.tidy(() => {
-    // convert to tensor (shape: [width, height, channels])  
-    const channels = 1; // grayscale              
-    let input = tf.fromPixels(imageData, channels);
-    // normalized
-    input = tf.cast(input, 'float32').div(tf.scalar(255));
-    // reshape input format (shape: [batch_size, width, height, channels])
-    input = input.expandDims();
-    // predict
-    return model.predict(input).dataSync();
-  });
-  console.log(score);
-  return score;
-}
-
-function prediction() {
-  const imageData = getImageData();
-  const accuracyScores = getAccuracyScores(imageData);
-  const maxAccuracy = accuracyScores.indexOf(Math.max.apply(null, accuracyScores));
-  const elements = document.querySelectorAll(".accuracy");
-  elements.forEach(el => {
-    const rowIndex = Number(el.dataset.rowIndex);
-    if (maxAccuracy === rowIndex) {
-      el.parentNode.classList.add('is-selected');
-    }
-    el.innerText = accuracyScores[rowIndex];
-  })
-}
-
 function reset() {
   let elements = document.querySelectorAll(".accuracy");
   elements.forEach(el => {

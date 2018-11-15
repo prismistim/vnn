@@ -24,8 +24,8 @@
           <canvas id="preview_" width="250px" height="250px"></canvas>
           <img id="preview" src="" width="300px">
           <div class="controllArea">
-            <input class="btn btn-default" type="file" accept="image/*" id="upload">
-            <button class="btn btn-warning disabled" id="prediction-btn" onclick="prediction()">predict</button>
+            <input class="btn btn-default" type="file" accept="image/*" id="inputImg">
+            <button class="btn btn-warning" id="prediction-btn" onclick="prediction()">predict</button>
             <button class="btn btn-warning" id="reset-btn" onclick="reset()">reset</button>
           </div>
         </div>
@@ -33,7 +33,7 @@
           <table class="table">
             <thead>
               <tr>
-                <th>Number</th>
+                <th>Class</th>
                 <th>Accracy</th>
               </tr>
             </thead>
@@ -45,38 +45,6 @@
               <tr>
                 <th>1</th>
                 <td class="accuracy" data-row-index="1">-</td>
-              </tr>
-              <tr>
-                <th>2</th>
-                <td class="accuracy" data-row-index="2">-</td>
-              </tr>
-              <tr>
-                <th>3</th>
-                <td class="accuracy" data-row-index="3">-</td>
-              </tr>
-              <tr>
-                <th>4</th>
-                <td class="accuracy" data-row-index="4">-</td>
-              </tr>
-              <tr>
-                <th>5</th>
-                <td class="accuracy" data-row-index="5">-</td>
-              </tr>
-              <tr>
-                <th>6</th>
-                <td class="accuracy" data-row-index="6">-</td>
-              </tr>
-              <tr>
-                <th>7</th>
-                <td class="accuracy" data-row-index="7">-</td>
-              </tr>
-              <tr>
-                <th>8</th>
-                <td class="accuracy" data-row-index="8">-</td>
-              </tr>
-              <tr>
-                <th>9</th>
-                <td class="accuracy" data-row-index="9">-</td>
               </tr>
             </tbody>
           </table>
