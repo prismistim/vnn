@@ -21,13 +21,13 @@
       <div class="container">
         <div class="box">
           <canvas id="preview" width="250px" height="250px"></canvas>
-          <canvas id="preview_" width="250px" height="250px"></canvas>
+          <canvas id="preview_" width="250px" height="250px" name="input_img"></canvas>
           <img id="preview" src="" width="300px">
-          <div class="controllArea">
+          <form class="controllArea" method="post" action="/toPostURL">
             <input class="btn btn-default" type="file" accept="image/*" id="inputImg">
             <button class="btn btn-warning" id="prediction-btn" onclick="prediction()">predict</button>
             <button class="btn btn-warning" id="reset-btn" onclick="reset()">reset</button>
-          </div>
+          </form>
         </div>
         <div class="box">
           <table class="table">

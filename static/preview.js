@@ -21,3 +21,4 @@ $('#input_img').change(function() {
     reader.readAsDataURL(file);
   }
 });
+
