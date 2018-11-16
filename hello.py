@@ -13,20 +13,14 @@ def index():
     html = render_template('index.html')
     return html
 
-@app.route('/toPostURL', methods=['POST'])
+@app.route('/result', methods=['POST'])
 def post():
     if request.method == 'POST':
-        img = get_image()
-        answer = get_answer(img)
+        upload_file = request.form['input_img'];
+        answer = get_answer(upload_file)
         return render_template('index.html')
     else:
         return redirect(url_for('index'))
-
-def get_image():
-    input_img = request.form['input_img'];
-    response = Responce()
-    response.status_code = 200
-    return response
 
 def get_answer(req):
     img_str = re.search(r'base64,(.*)', req.form['img']).group(1)
