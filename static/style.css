@@ -25,7 +25,3 @@ header{
 .is-selected{
   background-color: #ec1153;
 }
-
-canvas#preview{
-  display: none;
-}

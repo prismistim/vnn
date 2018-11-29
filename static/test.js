@@ -1,12 +1,22 @@
-const IMAGE_SIZE = 28;
-var canvas = document.querySelector("#preview").getContext('2d');
-var canvas_ = document.querySelector("#preview_").getContext('2d');
-
 function prediction() {
+    canvasImage = $('#preview').get(0);
+    var base64 = canvasImage.toDataURL('image/png');
+
+    var fData = new FormData();
+    fData.append('img', base64);
+
     $.ajax({
-        url: $(this).parent('form').attr('action'),
+        url: '/result',
         type: 'post',
-        data: $(this).parent('form').serialize()
+        data: fData,
+        contentType: false,
+        processData: false,
+        success: function (data, dataType) {
+            console.log('success', data);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            console.log('error: ' + errorThrown);
+        }
     });
 }
 
@@ -15,7 +25,6 @@ function reset() {
         elements.forEach(el => {
             el.innerText = '-';
             el.parentNode.classList.remove('is-selected');
-            canvas.clearRect(0,0,28,28);
-            canvas_.clearRect(0, 0, 250, 250);
+            canvas.clearRect(0,0,250,250);
         })
 }
