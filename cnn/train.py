@@ -47,14 +47,14 @@ model.add(Activation('relu'))
 model.add(Conv2D(32, kernel_size))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=max_pool_size))
-model.add(Dropout(0.25))
+model.add(Dropout(0.5))
 
 model.add(Conv2D(64, kernel_size, padding='same', input_shape=x_train.shape[1:]))
 model.add(Activation('relu'))
 model.add(Conv2D(64, kernel_size))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=max_pool_size))
-model.add(Dropout(0.25))
+model.add(Dropout(0.5))
 
 model.add(Flatten())
 model.add(Dense(512))
@@ -66,7 +66,7 @@ model.add(Activation('softmax'))
 #compile
 model.compile(loss='categorical_crossentropy', optimizer='SGD', metrics=['accuracy'])
 
-history = model.fit(x_train, y_train, batch_size=5, epochs=200, validation_data= (x_test, y_test), verbose=0)
+history = model.fit(x_train, y_train, batch_size=5, epochs=60, validation_data= (x_test, y_test))
 
 plt.plot(history.history['acc'])
 plt.plot(history.history['val_acc'])
