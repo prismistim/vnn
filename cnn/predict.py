@@ -3,7 +3,7 @@ from keras.models import load_model
 from keras import backend as k
 import os
 
-def result(x):
+def prediction(x):
     k.clear_session()
     model = load_model(os.path.abspath(os.path.dirname(__file__)) + '/model.h5')
     x = np.expand_dims(x, axis=0)

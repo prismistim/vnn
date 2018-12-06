@@ -20,9 +20,9 @@
     <main>
       <div class="container">
         <div class="box">
-          <canvas id="preview" width="250px" height="250px" name="input_img"></canvas>
+          <canvas id="preview" width="250px" height="250px"></canvas>
           <form class="ajax_submit" method="POST" action="/result">
-            <input class="btn btn-default" type="file" accept="image/*" id="inputImg">
+            <input name="input_img" class="btn btn-default" type="file" accept="image/*" id="inputImg">
             <button class="btn btn-warning" id="prediction-btn" onclick="prediction()">predict</button>
             <button class="btn btn-warning" id="reset-btn" onclick="reset()">reset</button> 
           </form>
