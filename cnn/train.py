@@ -63,6 +63,8 @@ model.add(Dropout(0.5))
 model.add(Dense(2)) # 2class
 model.add(Activation('softmax'))
 
+model.summary()
+
 #compile
 model.compile(loss='categorical_crossentropy', optimizer='SGD', metrics=['accuracy'])
 
@@ -79,5 +81,7 @@ plt.show()
 score = model.evaluate(x_test, y_test, verbose=0)
 print('test loss:', score[0])
 print('test accuracy:', score[1])
+
+model.summary()
 
 model.save('./model.h5')

@@ -1,15 +1,17 @@
 function prediction() {
     canvasImage = $('#preview').get(0);
-    var base64 = canvasImage.toDataURL('image/png');
-    console.log(base64);
+    var base64Img = canvasImage.toDataURL('image/png');
+    console.log(base64Img);
 
-    var fData = new FormData();
-    fData.append('img', base64);
+    // var fData = new FormData();
+    // fData.append('img', base64);
 
     $.ajax({
-        url: '/return',
+        url: 'http://192.168.13.117:5550/',
         type: 'post',
-        data: fData,
+        data: {
+            "img": base64Img
+        },
         success: function (data, dataType) {
             console.log('success', data);
         },
