@@ -1,3 +1,7 @@
+body{
+  font-family: "Arial", sans-serif;
+}
+
 a.title{
   color: #FFFFFF;
   font-size: 1.7em;
@@ -24,4 +28,32 @@ header{
 
 .is-selected{
   background-color: #ec1153;
+}
+
+.section{
+  width: 100%;
+}
+
+h3.job-title{
+    font-family: "Arial", sans-serif;
+    font-weight: 200;
+    padding: 10px;
+}
+
+h4.sub-title{
+    color: #FFFFFF;
+}
+
+p.description{
+    color: #FFFFFF;
+}
+
+.prediction{
+    background-color: #333333;
+    padding: 10px;
+}
+
+.prediction > #result, #acuracy{
+    color: #FFFFFF;
+    text-decoration: #FFFFFF;
 }

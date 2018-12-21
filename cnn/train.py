@@ -8,7 +8,14 @@ from keras.layers.core import Dense, Dropout, Activation, Flatten
 from keras.preprocessing.image import array_to_img, img_to_array, list_pictures, load_img
 import numpy as np
 from sklearn.model_selection import train_test_split
+import tensorflow as tf
 import matplotlib.pyplot as plt
+from keras.backend.tensorflow_backend import set_session
+
+config = tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=True))
+session = tf.Session(config=config)
+config.gpu_options.visible_device_list = "0,1"
+set_session(session)
 
 x = []
 y = []
@@ -47,17 +54,9 @@ model.add(Activation('relu'))
 model.add(Conv2D(32, kernel_size))
 model.add(Activation('relu'))
 model.add(MaxPooling2D(pool_size=max_pool_size))
-model.add(Dropout(0.5))
-
-model.add(Conv2D(64, kernel_size, padding='same', input_shape=x_train.shape[1:]))
-model.add(Activation('relu'))
-model.add(Conv2D(64, kernel_size))
-model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=max_pool_size))
-model.add(Dropout(0.5))
 
 model.add(Flatten())
-model.add(Dense(512))
+model.add(Dense(128))
 model.add(Activation('relu'))
 model.add(Dropout(0.5))
 model.add(Dense(2)) # 2class

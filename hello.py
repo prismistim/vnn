@@ -1,30 +1,35 @@
 from datetime import datetime
+from typing import Dict, Any
+
 import cv2
 import re
 import base64
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, jsonify
 import numpy as np
 from cnn import predict
 from PIL import Image
-from io import BytesIO
+import io
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
+    return render_template('index.html')
+
+@app.route('/result', methods=['POST'])
+def result():
     # TODO: jinja2でmodelのクラス名などを読み込む
 
     if request.method == 'POST':
-        upload_file = request.form['img']
-        upload_file = re.search(r'base64,(.*)', upload_file).group(1)
-        decode_file = base64.b64decode(upload_file)
+        upload_file = request.files['imageFile'].read()
+        # upload_file = Image.open(io.BytesIO(upload_file))
+        # upload_file = re.search(r'base64,(.*)', upload_file).group(1)
+        # decode_file = base64.b64decode(upload_file)
         # decode_img = Image.open(BytesIO(decode_file))
         # decode_img.show()
-        answer = get_answer(decode_file)
+        answer = get_answer(upload_file)
 
-        return answer
-    else:
-        return render_template('index.html')
+        return jsonify(answer)
 
 def get_answer(req):
     array = np.fromstring(req, np.uint8)
