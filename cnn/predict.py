@@ -10,6 +10,8 @@ session = tf.Session(config=config)
 config.gpu_options.visible_device_list = "0,1"
 set_session(session)
 
+layer_name = Conv2D(32)
+
 def gradcam(x):
     # TODO: 最終の畳み込み層のレイヤー名を取る
     k.clear_session()
@@ -40,22 +42,22 @@ def gradcam(x):
 
     return jetcam, predictions
 
-def prediction(x):
-    # TODO: Grad-cam導入
-    k.clear_session()
-    model = load_model(os.path.abspath(os.path.dirname(__file__)) + '/model.h5')
-    x = np.expand_dims(x, axis=0)
-    x = x.reshape(x.shape[0], 64, 64, 3)
-    pred = model.predict(x)
-
-    blossoms = [
-        'cherry blossom',
-        'peach blossom',
-    ]
-
-    print(pred)
-    acc = str(pred[0])
-    res = blossoms[np.argmax(pred)]
-
-    data = dict(result=res, acuracy=acc)
-    return data
+# def prediction(x):
+#     # TODO: Grad-cam導入
+#     k.clear_session()
+#     model = load_model(os.path.abspath(os.path.dirname(__file__)) + '/model.h5')
+#     x = np.expand_dims(x, axis=0)
+#     x = x.reshape(x.shape[0], 64, 64, 3)
+#     pred = model.predict(x)
+#
+#     blossoms = [
+#         'cherry blossom',
+#         'peach blossom',
+#     ]
+#
+#     print(pred)
+#     acc = str(pred[0])
+#     res = blossoms[np.argmax(pred)]
+#
+#     data = dict(result=res, acuracy=acc)
+#     return data

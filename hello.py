@@ -38,9 +38,10 @@ def get_answer(req):
     # img_gray = cv2.cvtColor(img_roll, cv2.COLOR_BGR2GRAY)
     img_resize = cv2.resize(img_src, (64, 64))
     # cv2.imwrite(f"images/{datetime.now().strftime('%s')}.jpg", img_resize)
-    heat, score = predict.prediction(img_resize)
-    marged = (np.float32(heat) + req / 2)
-    return score, marged
+    heat, score = predict.gradcam(img_resize)
+    merged = (np.float32(heat) + req / 2)
+    merged.show()
+    return score, merged
 
 if __name__ == "__main__":
     # app.debug = True
