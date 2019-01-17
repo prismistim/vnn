@@ -1,2 +1,9 @@
+# envioroment files
 cnn/scrapping/env/.envs
+
+# image for training
+cnn/scrapping/get_image/cherry blossom
+cnn/scrapping/get_image/peach blossom
+
+# etc
 .vscode/
