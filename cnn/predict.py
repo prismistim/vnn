@@ -3,13 +3,6 @@ import numpy as np
 from keras.models import load_model
 from keras import backend as k
 import os
-import tensorflow as tf
-from keras.backend.tensorflow_backend import set_session
-
-config = tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=True))
-session = tf.Session(config=config)
-config.gpu_options.visible_device_list = "0,1"
-set_session(session)
 
 layer_name = 'conv2d_2'
 
