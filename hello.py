@@ -9,7 +9,13 @@ import numpy as np
 from cnn import predict
 from PIL import Image
 import io
-import matplotlib.pyplot as plt
+import tensorflow as tf
+from keras.backend.tensorflow_backend import set_session
+
+config = tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=True))
+session = tf.Session(config=config)
+config.gpu_options.visible_device_list = "0,1"
+set_session(session)
 
 app = Flask(__name__)
 
@@ -39,9 +45,10 @@ def result():
         gene_image = gene_buf.getvalue()
 
         gene_b64 = base64.b64encode(gene_image).decode("utf-8")
-        gene_b64_data = "data:image/png;base64,{}".format(gene_b64)
+        gene_image_data = "data:image/png;base64,{}".format(gene_b64)
 
-        return render_template('index.html', gene_b64_data=gene_b64_data)
+        return render_template('index.html', gene_image_data=gene_image_data)
+
     else:
         return redirect(url_for('index'))
 

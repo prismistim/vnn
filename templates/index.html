@@ -52,7 +52,9 @@
         <div class="clearfix"></div>
         <div class="section">
             <h3 class="job-title">3. Visualized prediction result with Grad-cam</h3>
-            <img src="{{ gene_image_data }}">
+            {% if gene_image_data %}
+            <img src="{{gene_image_data}}">
+            {% endif %}
         </div>
       </div>
     </main>
