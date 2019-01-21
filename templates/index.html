@@ -29,10 +29,10 @@
           <h3 class="job-title">2. Test your model with a image.</h3>
           <div class="box">
             <canvas id="preview" width="250px" height="250px"></canvas>
-            <form class="ajax_submit">
+            <form class="ajax_submit" action="/result" enctype="multipart/form-data">
               <input name="input_img" class="btn btn-default" type="file" accept="image/*" id="input_img">
               <div class="control">
-                <!--<button class="btn btn-warning" id="prediction-btn" onclick="prediction()">predict</button>-->
+                <button class="btn btn-warning" id="prediction-btn" type="submit" formmethod="post">prediction</button>
                 <button class="btn btn-warning" id="reset-btn" onclick="reset()">reset</button>
               </div>
             </form>
@@ -52,15 +52,15 @@
         <div class="clearfix"></div>
         <div class="section">
             <h3 class="job-title">3. Visualized prediction result with Grad-cam</h3>
-            {% if gene_image_data %}
-            <img src="{{gene_image_data}}">
-            {% endif %}
+        {% if gene_image_data %}
+            <img src="{{ gene_image_data }}">
+        {% endif %}
         </div>
       </div>
     </main>
     <footer>
     </footer>
     <script src="../static/preview.js"></script>
-    <script src="../static/app.js"></script>
+    <!--<script src="../static/app.js"></script>-->
   </body>
 </html>

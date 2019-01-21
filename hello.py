@@ -23,34 +23,37 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/result', methods=['POST'])
+@app.route('/result', methods=['GET', 'POST'])
 def result():
     # TODO: jinja2でmodelのクラス名などを読み込む
+    try:
+        if request.method == 'POST':
+            upload_file = request.files['input_img']
+            upload_file = Image.open(io.BytesIO(upload_file))
+            upload_file = re.search(r'base64,(.*)', upload_file).group(1)
+            decode_file = base64.b64decode(upload_file)
+            decode_img = Image.open(io.BytesIO(decode_file))
+            decode_img.show()
+            score, gene_image_array = get_answer(upload_file)
+            print(gene_image_array)
 
-    if request.method == 'POST':
-        upload_file = request.files['imageFile'].read()
-        # upload_file = Image.open(io.BytesIO(upload_file))
-        # upload_file = re.search(r'base64,(.*)', upload_file).group(1)
-        # decode_file = base64.b64decode(upload_file)
-        # decode_img = Image.open(BytesIO(decode_file))
-        # decode_img.show()
-        score, gene_image_array = get_answer(upload_file)
-        print(gene_image_array)
+            gene_image = Image.fromarray(np.uint8(gene_image_array))
+            gene_image.save('/home/murashige/Workspace/vnn/result.png')
+            gene_buf = io.BytesIO()
 
-        gene_image = Image.fromarray(np.uint8(gene_image_array))
-        gene_image.save('/home/murashige/Workspace/vnn/result.png')
-        gene_buf = io.BytesIO()
+            gene_image.save(gene_buf, format="PNG")
+            gene_image = gene_buf.getvalue()
 
-        gene_image.save(gene_buf, format="PNG")
-        gene_image = gene_buf.getvalue()
+            gene_b64 = base64.b64encode(gene_image).decode("utf-8")
+            gene_image_data = "data:image/png;base64,{}".format(gene_b64)
 
-        gene_b64 = base64.b64encode(gene_image).decode("utf-8")
-        gene_image_data = "data:image/png;base64,{}".format(gene_b64)
+            return render_template('index.html', gene_image_data=gene_image_data)
 
-        return render_template('index.html', gene_image_data=gene_image_data)
+        else:
+            return redirect(url_for('index'))
 
-    else:
-        return redirect(url_for('index'))
+    except Exception as e:
+        return str(e)
 
 def get_answer(req):
     # 元画像をデコード
@@ -76,5 +79,5 @@ def get_answer(req):
     return score, merged
 
 if __name__ == "__main__":
-    # app.debug = True
+    app.debug = True
     app.run(host="192.168.13.117", port=5550)
