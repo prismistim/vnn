@@ -34,7 +34,7 @@ def result():
         # decode_file = base64.b64decode(upload_file)
         # decode_img = Image.open(BytesIO(decode_file))
         # decode_img.show()
-        score, gene_image_array = get_answer(upload_file)
+        gene_image_array = get_answer(upload_file)
         print(gene_image_array)
 
         gene_image = Image.fromarray(np.uint8(gene_image_array))
@@ -76,5 +76,10 @@ def get_answer(req):
     return score, merged
 
 if __name__ == "__main__":
-    # app.debug = True
-    app.run(host="192.168.13.117", port=5550)
+    app.debug = True
+
+    # for my pc
+    app.run(host="127.0.0.1", port=5550)
+
+    # for deployment server
+    # app.run(host="192.168.13.117", port=5550)

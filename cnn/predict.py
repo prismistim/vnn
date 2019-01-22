@@ -9,7 +9,11 @@ layer_name = 'conv2d_2'
 def gradcam(x):
     # TODO: 最終の畳み込み層のレイヤー名を取る
     k.clear_session()
-    model = load_model(os.path.abspath(os.path.dirname(__file__)) + '/model.h5')
+
+    print(os.path.abspath(os.path.dirname(__file__)) + '\model.h5')
+
+    #linuxの場合パスの指定は'/'だが、Winは\なので注意
+    model = load_model(os.path.abspath(os.path.dirname(__file__)) + '\model.h5')
     model.summary()
 
     x = np.expand_dims(x, axis=0)
