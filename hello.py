@@ -21,7 +21,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    username = 'snowsphere'
+    return render_template('index.html', username=username)
 
 @app.route('/result', methods=['POST'])
 def result():
@@ -47,7 +48,9 @@ def result():
         gene_b64 = base64.b64encode(gene_image).decode("utf-8")
         gene_image_data = "data:image/png;base64,{}".format(gene_b64)
 
-        return render_template('index.html', gene_image_data=gene_image_data)
+        print(gene_image_data)
+
+        return render_template('index.html', username='hoge', gene_image_data=gene_image_data)
 
     else:
         return redirect(url_for('index'))
