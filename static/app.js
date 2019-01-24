@@ -1,7 +1,10 @@
 $(function(){
     var successResult = function (data) {
-        $('#result').text(data.result);
-        $('#acuracy').text(data.acuracy);
+        var req = {
+            url: "/result",
+            method: "get"
+        };
+        $.ajax(req);
     }
 
     var failedResult = function (data) {
