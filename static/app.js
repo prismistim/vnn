@@ -1,15 +1,16 @@
+var use_vgg = 0;
+
 $(function(){
     var successResult = function (data) {
-        var req = {
-            url: "/result",
-            method: "get"
-        };
-        $.ajax(req);
-    }
+        console.log('ひあった');
+        console.log(data);
+
+        $('#cam_img').attr("src", data.gene_image_data);
+    };
 
     var failedResult = function (data) {
         alert("HA?YABAI");
-    }
+    };
 
     var fileChange = function(evt){
         var fileOb = $("#input_img")[0].files[0];
@@ -31,6 +32,10 @@ $(function(){
     };
 
     $('#input_img').change(fileChange);
+});
+
+$('#use_vgg16').click(function () {
+    use_vgg = 1;
 });
 
 function reset() {

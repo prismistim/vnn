@@ -30,12 +30,13 @@ def result():
 
     if request.method == 'POST':
         upload_file = request.files['imageFile'].read()
+        use_vgg = 1
         # upload_file = Image.open(io.BytesIO(upload_file))
         # upload_file = re.search(r'base64,(.*)', upload_file).group(1)
         # decode_file = base64.b64decode(upload_file)
         # decode_img = Image.open(BytesIO(decode_file))
         # decode_img.show()
-        score, gene_image_array = get_answer(upload_file)
+        score, gene_image_array = get_answer(upload_file, use_vgg)
         print(gene_image_array)
 
         gene_image = Image.fromarray(np.uint8(gene_image_array))
@@ -48,14 +49,14 @@ def result():
         gene_b64 = base64.b64encode(gene_image).decode("utf-8")
         gene_image_data = "data:image/png;base64,{}".format(gene_b64)
 
-        print(gene_image_data)
+        score = str(score)
 
-        return render_template('index.html', username='hoge', gene_image_data=gene_image_data)
+        return jsonify(gene_image_data=gene_image_data, score=score)
 
     else:
         return redirect(url_for('index'))
 
-def get_answer(req):
+def get_answer(req, use_vgg):
     # 元画像をデコード
     img_bistream = io.BytesIO(req)
     img_pil = Image.open(img_bistream)
@@ -67,9 +68,13 @@ def get_answer(req):
 
     # img_roll = 255 - img_src
     # img_gray = cv2.cvtColor(img_roll, cv2.COLOR_BGR2GRAY)
-    img_resize = cv2.resize(img_src, (64, 64))
+    if use_vgg == 1:
+        resize_size = 224
+    else:
+        resize_size = 64
+    img_resize = cv2.resize(img_src, (resize_size, resize_size))
     # cv2.imwrite(f"images/{datetime.now().strftime('%s')}.jpg", img_resize)
-    heat, score = predict.gradcam(img_resize)
+    heat, score = predict.gradcam(img_resize, use_vgg)
 
     heat = cv2.resize(heat, (img_original.shape[1], img_original.shape[0]))
     heat = cv2.applyColorMap(np.uint8(255 * heat), cv2.COLORMAP_JET)

@@ -1,22 +1,39 @@
 import cv2
 import numpy as np
+from keras.applications.vgg16 import VGG16, preprocess_input, decode_predictions
 from keras.models import load_model
 from keras import backend as k
 import os
 
-layer_name = 'conv2d_2'
-
-def gradcam(x):
+def gradcam(x, use_vgg):
     # TODO: 最終の畳み込み層のレイヤー名を取る
     k.clear_session()
-    model = load_model(os.path.abspath(os.path.dirname(__file__)) + '/model.h5')
+    if use_vgg == 1:
+        model = VGG16(weights='imagenet')
+
+        layer_name = 'block5_conv3'
+
+    else:
+        model = load_model(os.path.abspath(os.path.dirname(__file__)) + '/model.h5')
+        layer_name = 'conv2d_2'
+
     model.summary()
 
     x = np.expand_dims(x, axis=0)
-    x = x.reshape(x.shape[0], 64, 64, 3)
 
-    predictions = model.predict(x)
-    class_idx = np.argmax(predictions[0])
+    if use_vgg == 1:
+        x = np.array(x, dtype=np.float)
+
+        predictions = model.predict(preprocess_input(x))
+        results = decode_predictions(predictions, top=5)[0]
+
+        class_idx = np.argmax(results)
+
+    else :
+        x = x.reshape(x.shape[0], 64, 64, 3)
+
+        predictions = model.predict(x)
+        class_idx = np.argmax(predictions[0])
 
     conv_output = model.get_layer(layer_name).output
     class_output = model.output[:, class_idx]
@@ -35,7 +52,12 @@ def gradcam(x):
     # jetcam = cv2.applyColorMap(np.uint8(255 * cam), cv2.COLORMAP_JET)
     # jetcam = cv2.cvtColor(jetcam, cv2.COLOR_BGR2RGB)
 
-    return cam, class_idx
+    if use_vgg == 1:
+        print(results)
+        return cam, results
+
+    else :
+        return cam, class_idx
 
 # def prediction(x):
 #     # TODO: Grad-cam導入

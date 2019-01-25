@@ -57,3 +57,18 @@ p.description{
     color: #FFFFFF;
     text-decoration: #FFFFFF;
 }
+
+.cam_result{
+    text-align: center;
+}
+
+.result_img{
+    margin: 10px;
+}
+
+.copyright{
+    margin-top: 10px;
+    padding: 20px;
+    background-color: #333333;
+    color: #FFF;
+}

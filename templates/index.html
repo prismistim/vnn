@@ -24,12 +24,11 @@
       <div class="container">
         <div class="section">
           {% if username %}
-            <p>{{username}}</p>
+            <p>Hello! {{username}}</p>
           {% endif %}
           <h3 class="job-title">1.Open your trained model.</h3>
-          <form class="model_post">
-            <input class="btn btn-default" type="file">
-          </form>
+          <input class="btn btn-default" type="file">
+          <button id="use_vgg16" class="btn btn-info">Use VGG16</button>
         </div>
         <div class="section">
           <h3 class="job-title">2. Test your model with a image.</h3>
@@ -37,11 +36,11 @@
             <canvas id="preview" width="250px" height="250px"></canvas>
             <form class="ajax_submit" action="/result">
               <input name="input_img" class="btn btn-default" type="file" accept="image/*" id="input_img">
-              <div class="control">
-                <!--<button class="btn btn-warning" id="prediction-btn" onclick="prediction()">predict</button>-->
-                <button class="btn btn-warning" id="reset-btn" onclick="reset()">reset</button>
-              </div>
             </form>
+            <div class="control">
+              <!--<button class="btn btn-warning" id="prediction-btn" onclick="prediction()">predict</button>-->
+              <button class="btn btn-warning" id="reset-btn" onclick="reset()">reset</button>
+            </div>
           </div>
           <div class="box">
             <div class="prediction">
@@ -58,14 +57,14 @@
         <div class="clearfix"></div>
         <div class="section">
             <h3 class="job-title">3. Visualized prediction result with Grad-cam</h3>
-            {% if gene_image_data %}
-            <p>{{gene_image_data}}</p>
-            <img class="result_img" src={{gene_image_data}}>
-            {% endif %}
+            <div class="cam_result">
+              <img id="cam_img" class="result_img">
+            </div>
         </div>
       </div>
     </main>
     <footer>
+      <div class="copyright">© 2018-2019 snowsphere</div>
     </footer>
     <script src="../static/preview.js"></script>
     <script src="../static/app.js"></script>
