@@ -6,21 +6,25 @@ from keras import backend as k
 import os
 
 def gradcam(x, use_vgg):
-    # TODO: 最終の畳み込み層のレイヤー名を取る
     k.clear_session()
+
+    # modelの読み込みとレイヤーの指定
     if use_vgg == 1:
         model = VGG16(weights='imagenet')
 
+        # VGGの場合モデルの最終層はblock5_conv3
         layer_name = 'block5_conv3'
 
     else:
         model = load_model(os.path.abspath(os.path.dirname(__file__)) + '/model.h5')
         layer_name = 'conv2d_2'
 
+    # modelの構成を表示
     model.summary()
 
     x = np.expand_dims(x, axis=0)
 
+    # 推論 / 予測クラスの算出
     if use_vgg == 1:
         x = np.array(x, dtype=np.float)
 
@@ -35,6 +39,7 @@ def gradcam(x, use_vgg):
         predictions = model.predict(x)
         class_idx = np.argmax(predictions[0])
 
+    # 勾配を取得
     conv_output = model.get_layer(layer_name).output
     class_output = model.output[:, class_idx]
     grads = k.gradients(class_output, conv_output)[0]
@@ -46,8 +51,10 @@ def gradcam(x, use_vgg):
     weights = np.mean(grads_val, axis=(0, 1))
     cam = np.dot(output, weights)
 
+    if use_vgg == 1:
+        cam = cv2.resize(cam, (224, 224))
+
     cam = np.maximum(cam, 0)
-    cam = cam / np.max(cam)
 
     # jetcam = cv2.applyColorMap(np.uint8(255 * cam), cv2.COLORMAP_JET)
     # jetcam = cv2.cvtColor(jetcam, cv2.COLOR_BGR2RGB)

@@ -74,14 +74,16 @@ def get_answer(req, use_vgg):
         resize_size = 64
     img_resize = cv2.resize(img_src, (resize_size, resize_size))
     # cv2.imwrite(f"images/{datetime.now().strftime('%s')}.jpg", img_resize)
-    heat, score = predict.gradcam(img_resize, use_vgg)
+    cam, score = predict.gradcam(img_resize, use_vgg)
+    heat = cam / np.max(cam)
 
-    heat = cv2.resize(heat, (img_original.shape[1], img_original.shape[0]))
-    heat = cv2.applyColorMap(np.uint8(255 * heat), cv2.COLORMAP_JET)
+    # cam = cv2.resize(cam, (img_original.shape[1], img_original.shape[0]), cv2.INTER_LINEAR)
+    cam = cv2.applyColorMap(np.uint8(255 * heat), cv2.COLORMAP_JET)
 
-    merged = (np.float32(heat) + img_original / 2)
+    cam = np.float32(cam) + np.float32(img_original)
+    cam = 255 * cam / np.max(cam)
 
-    return score, merged
+    return score, np.uint8(cam)
 
 if __name__ == "__main__":
     # app.debug = True

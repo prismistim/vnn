@@ -6,9 +6,11 @@ $(function(){
         console.log(data);
 
         $('#cam_img').attr("src", data.gene_image_data);
+
+        $('#result').html(data.score);
     };
 
-    var failedResult = function (data) {
+    var failedResult = function (data, result) {
         alert("HA?YABAI");
     };
 
