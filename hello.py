@@ -26,18 +26,14 @@ def index():
 
 @app.route('/result', methods=['POST'])
 def result():
-    # TODO: jinja2でmodelのクラス名などを読み込む
-
     if request.method == 'POST':
         upload_file = request.files['imageFile'].read()
+
+        # TODO: ボタンの入力から変数の値を変える
         use_vgg = 1
-        # upload_file = Image.open(io.BytesIO(upload_file))
-        # upload_file = re.search(r'base64,(.*)', upload_file).group(1)
-        # decode_file = base64.b64decode(upload_file)
-        # decode_img = Image.open(BytesIO(decode_file))
-        # decode_img.show()
+
+        # 前処理 & 推論 部分へ
         score, gene_image_array = get_answer(upload_file, use_vgg)
-        print(gene_image_array)
 
         gene_image = Image.fromarray(np.uint8(gene_image_array))
         gene_image.save('/home/murashige/Workspace/vnn/result.png')
@@ -49,9 +45,10 @@ def result():
         gene_b64 = base64.b64encode(gene_image).decode("utf-8")
         gene_image_data = "data:image/png;base64,{}".format(gene_b64)
 
-        score = str(score)
+        score_str = str(round(score[0][2], 4))
+        print(score_str)
 
-        return jsonify(gene_image_data=gene_image_data, score=score)
+        return jsonify(gene_image_data=gene_image_data, class_name=score[0][1], score=score_str)
 
     else:
         return redirect(url_for('index'))
@@ -72,13 +69,14 @@ def get_answer(req, use_vgg):
         resize_size = 224
     else:
         resize_size = 64
+
     img_resize = cv2.resize(img_src, (resize_size, resize_size))
-    # cv2.imwrite(f"images/{datetime.now().strftime('%s')}.jpg", img_resize)
     cam, score = predict.gradcam(img_resize, use_vgg)
     heat = cam / np.max(cam)
 
     # cam = cv2.resize(cam, (img_original.shape[1], img_original.shape[0]), cv2.INTER_LINEAR)
     cam = cv2.applyColorMap(np.uint8(255 * heat), cv2.COLORMAP_JET)
+    cam = cv2.cvtColor(cam, cv2.COLOR_BGR2RGB)
 
     cam = np.float32(cam) + np.float32(img_original)
     cam = 255 * cam / np.max(cam)

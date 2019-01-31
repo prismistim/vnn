@@ -7,7 +7,8 @@ $(function(){
 
         $('#cam_img').attr("src", data.gene_image_data);
 
-        $('#result').html(data.score);
+        $('#result').html(data.class_name);
+        $('#accuracy').html(data.score);
     };
 
     var failedResult = function (data, result) {
