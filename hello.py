@@ -27,10 +27,12 @@ def index():
 @app.route('/result', methods=['POST'])
 def result():
     if request.method == 'POST':
-        upload_file = request.files['imageFile'].read()
+        print(request.args)
+        upload_file = request.data['imageFile'].read()
 
         # TODO: ボタンの入力から変数の値を変える
-        use_vgg = 1
+        if request.data.use_vgg == 1:
+            use_vgg = 1
 
         # 前処理 & 推論 部分へ
         score, gene_image_array = get_answer(upload_file, use_vgg)

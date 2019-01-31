@@ -2,9 +2,6 @@ var use_vgg = 0;
 
 $(function(){
     var successResult = function (data) {
-        console.log('ひあった');
-        console.log(data);
-
         $('#cam_img').attr("src", data.gene_image_data);
 
         $('#result').html(data.class_name);
@@ -12,10 +9,16 @@ $(function(){
     };
 
     var failedResult = function (data, result) {
-        alert("HA?YABAI");
+        alert("Error");
     };
 
     var fileChange = function(evt){
+        let model_select = $("input[name='model_select']:checked").val();
+        if(model_select === 'vgg') {
+            use_vgg = 1;
+        }
+
+
         var fileOb = $("#input_img")[0].files[0];
 
         var formData = new FormData();
@@ -26,7 +29,10 @@ $(function(){
             method: "post",
             processData: false,
             contentType: false,
-            data: formData
+            data: {
+                image: formData,
+                use_vgg: use_vgg
+            }
         };
 
         var promise = $.ajax(req);

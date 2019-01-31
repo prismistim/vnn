@@ -27,6 +27,14 @@
             <p>Hello! {{username}}</p>
           {% endif %}
           <h3 class="job-title">1.Open your trained model.</h3>
+            <div class="btn-group" data-toggle="button" id="use_model">
+                <label class="btn btn-info">
+                    <input type="radio" name="model_select" id="use_vgg" value="vgg" checked>VGG16
+                </label>
+                <label class="btn btn-danger">
+                    <input type="radio" name="model_select" id="use_original" value="ori">Original model
+                </label>
+            </div>
           <input class="btn btn-default" type="file">
           <button id="use_vgg16" class="btn btn-info">Use VGG16</button>
         </div>
