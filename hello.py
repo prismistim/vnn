@@ -39,7 +39,7 @@ def result():
         print(gene_image_array)
 
         gene_image = Image.fromarray(np.uint8(gene_image_array))
-        gene_image.save('/home/murashige/Workspace/vnn/result.png')
+        # gene_image.save('/home/murashige/Workspace/vnn/result.png')
         gene_buf = io.BytesIO()
 
         gene_image.save(gene_buf, format="PNG")
