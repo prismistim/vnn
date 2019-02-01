@@ -18,7 +18,6 @@ $(function(){
             use_vgg = 1;
         }
 
-
         var fileOb = $("#input_img")[0].files[0];
 
         var formData = new FormData();
@@ -48,7 +47,7 @@ $('#use_vgg16').click(function () {
 });
 
 function reset() {
-    let elements = document.querySelectorAll(".accuracy");
+    let elements = document.querySelectorAll("#accuracy");
         elements.forEach(el => {
             el.innerText = '-';
             el.parentNode.classList.remove('is-selected');

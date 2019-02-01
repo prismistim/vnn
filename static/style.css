@@ -1,29 +1,32 @@
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,700');
+
 body{
-  font-family: "Arial", sans-serif;
+    font-family: "Ubuntu", sans-serif;
 }
 
 a.title{
-  color: #FFFFFF;
-  font-size: 1.7em;
-  font-weight: 200;
+    color: #FFFFFF;
+    font-size: 1.7em;
+    font-weight: 200;
 }
 
 a.title:hover{
-  text-decoration: none;
-  color: #ec1153;
+    text-decoration: none;
+    color: #ec1153;
 }
 
 header{
-  padding: 15px 0;
-  margin-bottom: 10px;
-  background-color: #424242;
-  color: #FFFFFF;
+    padding: 15px 0;
+    margin-bottom: 10px;
+    background-color: #424242;
+    color: #FFFFFF;
 }
 
 .box{
-  float: left;
-  width: 48%;
-  margin: 1%;
+    width: 95%;
+    margin: auto;
+    margin-bottom: 20px;
+    padding: 5px;
 }
 
 .is-selected{
@@ -31,16 +34,22 @@ header{
 }
 
 .section{
-  width: 100%;
+    display: inline-block;
+    vertical-align: top;
+    width: 45%;
+    margin: 0 2.4% 40px;
 }
 
 h3.job-title{
-    font-family: "Arial", sans-serif;
-    font-weight: 200;
+    font-size: 1.7em;
+    font-weight: 300;
     padding: 10px;
+    margin: 10px 0;
+    border-bottom: solid 2px #ec1153;
 }
 
 h4.sub-title{
+    font-weight: 300;
     color: #FFFFFF;
 }
 
@@ -48,17 +57,67 @@ p.description{
     color: #FFFFFF;
 }
 
+.btn-group{
+    width: 92%;
+    margin-left: 4%;
+}
+
+label.btn{
+    width: 50%;
+}
+
+.control{
+    width: 100%;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.dropzone{
+    width: 100%;
+    height: 180px;
+    border: dashed 5px #CFCFCF;
+}
+
+#prediction-btn, #reset-btn{
+    width: 45%;
+    margin: 0 5px;
+}
+
 .prediction{
-    background-color: #333333;
+    background-color: #686868;
     padding: 10px;
 }
 
-.prediction > #result, #acuracy{
+#result, #accuracy{
     color: #FFFFFF;
     text-decoration: #FFFFFF;
 }
 
-.cam_result{
+table{
+    width: 100%;
+}
+
+th, td{
+    width: 25%;
+    color: #FEFEFE;
+}
+
+th{
+    font-size: 0.9em;
+}
+
+td span{
+    font-size: 1.2em;
+}
+
+.preview_zone{
+    margin-bottom: 20px;
+}
+
+.cam_result, .input_preview{
+    width: 100%;
+    margin-bottom: 10px;
+    background-color: #EFEFEF;
     text-align: center;
 }
 
@@ -67,6 +126,7 @@ p.description{
 }
 
 .copyright{
+    text-align: center;
     margin-top: 10px;
     padding: 20px;
     background-color: #333333;

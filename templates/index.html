@@ -14,60 +14,66 @@
     <title>VNN</title>
   </head>
   <body>
-  {% if gene_image_data %}
-    <img src="{{gene_image_data}}">
-  {% endif %}
     <header class="text-center">
       <a class="title" href="#">VNN</a>
     </header>
     <main>
       <div class="container">
         <div class="section">
-          {% if username %}
+          <!-- {% if username %}
             <p>Hello! {{username}}</p>
-          {% endif %}
-          <h3 class="job-title">1.Open your trained model.</h3>
-            <div class="btn-group" data-toggle="button" id="use_model">
-                <label class="btn btn-info">
-                    <input type="radio" name="model_select" id="use_vgg" value="vgg" checked>VGG16
-                </label>
-                <label class="btn btn-danger">
-                    <input type="radio" name="model_select" id="use_original" value="ori">Original model
-                </label>
-            </div>
-          <input class="btn btn-default" type="file">
-          <button id="use_vgg16" class="btn btn-info">Use VGG16</button>
-        </div>
-        <div class="section">
-          <h3 class="job-title">2. Test your model with a image.</h3>
+          {% endif %} -->
+          <h3 class="job-title">1. Load trained model</h3>
           <div class="box">
-            <canvas id="preview" width="250px" height="250px"></canvas>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons" id="use_model">
+              <label class="btn btn-info">
+                <input type="radio" name="model_select" id="use_vgg" value="vgg">VGG16
+              </label>
+              <label class="btn btn-light">
+                <input type="radio" name="model_select" id="use_original" value="ori">Original model
+              </label>
+            </div>
+            <input class="btn btn-default" type="file">
+          </div>
+          <h3 class="job-title">2. Input a image</h3>
+          <div class="box">
             <form class="ajax_submit" action="/result">
-              <input name="input_img" class="btn btn-default" type="file" accept="image/*" id="input_img">
+              <div class="dropzone">
+                <label for="input_img"><strong>choose a file</strong> or drag it here</label>
+              </div>
+              <input name="input_img" class="btn btn-default" type="file" accept="image/*" id="input_img" >
             </form>
             <div class="control">
-              <!--<button class="btn btn-warning" id="prediction-btn" onclick="prediction()">predict</button>-->
-              <button class="btn btn-warning" id="reset-btn" onclick="reset()">reset</button>
+              <button class="btn btn-danger" id="reset-btn" onclick="reset()">reset</button>
+              <button class="btn btn-success" id="prediction-btn" onclick="prediction()">predict</button>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <h3 class="job-title">3. Visualized prediction result with Grad-cam</h3>
+          <div class="box">
+            <div class="preview_zone">
+              <div class="input_preview">
+                <canvas id="preview" width="250px" height="250px"></canvas>
+              </div>
+              <div class="cam_result">
+                <img id="cam_img" class="result_img">
+              </div>
             </div>
           </div>
           <div class="box">
             <div class="prediction">
               <h4 class="sub-title">Prediction Result</h4>
-              <p class="description">This image is :
-                <div id="result">-</div>
-              </p><br>
-              <p class="description">Accuracy :
-                <div id="accuracy">-</div>
-              </p>
+              <table>
+                <tr>
+                  <th>Image class: </th>
+                  <td><span id="result">-</span></td>
+                  <th>Accuracy: </th>
+                  <td><span id="accuracy">-</span></td>
+                </tr>
+              </table>
             </div>
           </div>
-        </div>
-        <div class="clearfix"></div>
-        <div class="section">
-            <h3 class="job-title">3. Visualized prediction result with Grad-cam</h3>
-            <div class="cam_result">
-              <img id="cam_img" class="result_img">
-            </div>
         </div>
       </div>
     </main>
