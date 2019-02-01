@@ -14,6 +14,7 @@ $(function(){
 
     var fileChange = function(evt){
         let model_select = $("input[name='model_select']:checked").val();
+
         if(model_select === 'vgg') {
             use_vgg = 1;
         }
@@ -22,16 +23,14 @@ $(function(){
 
         var formData = new FormData();
         formData.append("imageFile", fileOb);
+        formData.append("use_model", use_vgg.toString());
 
         var req = {
             url: "/result",
             method: "post",
             processData: false,
             contentType: false,
-            data: {
-                image: formData,
-                use_vgg: use_vgg
-            }
+            data: formData
         };
 
         var promise = $.ajax(req);

@@ -28,11 +28,15 @@ def index():
 def result():
     if request.method == 'POST':
         print(request.args)
-        upload_file = request.data['imageFile'].read()
+
+        upload_file = request.files['imageFile'].read()
 
         # TODO: ボタンの入力から変数の値を変える
-        if request.data.use_vgg == 1:
+        if request.form['use_model'] == '1':
             use_vgg = 1
+
+        else :
+            use_vgg = 0
 
         # 前処理 & 推論 部分へ
         score, gene_image_array = get_answer(upload_file, use_vgg)
@@ -60,7 +64,8 @@ def get_answer(req, use_vgg):
     img_bistream = io.BytesIO(req)
     img_pil = Image.open(img_bistream)
     img_numpy = np.asarray(img_pil)
-    img_original = cv2.cvtColor(img_numpy, cv2.COLOR_RGBA2BGR)
+    img_original = cv2.cvtColor(img_numpy, cv2.COLOR_RGB2BGR)
+    img_original = cv2.resize(img_original, (224, 224))
 
     array = np.fromstring(req, np.uint8)
     img_src = cv2.imdecode(array, cv2.IMREAD_COLOR)
@@ -74,16 +79,19 @@ def get_answer(req, use_vgg):
 
     img_resize = cv2.resize(img_src, (resize_size, resize_size))
     cam, score = predict.gradcam(img_resize, use_vgg)
-    heat = cam / np.max(cam)
+    cam = cam / cam.max()
 
-    # cam = cv2.resize(cam, (img_original.shape[1], img_original.shape[0]), cv2.INTER_LINEAR)
-    cam = cv2.applyColorMap(np.uint8(255 * heat), cv2.COLORMAP_JET)
-    cam = cv2.cvtColor(cam, cv2.COLOR_BGR2RGB)
+    heat = cv2.applyColorMap(np.uint8(255 * cam), cv2.COLORMAP_JET)
+    # heat = cv2.resize(heat, (img_original.shape[1], img_original.shape[0]), cv2.INTER_LINEAR)
+    heat = cv2.cvtColor(heat, cv2.COLOR_BGR2RGB)
 
-    cam = np.float32(cam) + np.float32(img_original)
-    cam = 255 * cam / np.max(cam)
+    # /2 すると単純に変化が見やすくなる
+    heat = np.float32(heat) + np.float32(img_original)
 
-    return score, np.uint8(cam)
+    # どこかで255をかけていない
+    heat = 255 * heat / np.max(heat)
+
+    return score, heat
 
 if __name__ == "__main__":
     # app.debug = True
