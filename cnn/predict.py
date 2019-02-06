@@ -5,6 +5,7 @@ from keras.models import load_model
 from keras import backend as k
 import os
 
+
 def gradcam(x, use_vgg):
     k.clear_session()
 
@@ -26,40 +27,40 @@ def gradcam(x, use_vgg):
     pre_x = pre_x.astype('float32')
     pre_x = pre_x / 255.0
 
-
-    # 推論 / 予測クラスの算出
+    # 推論/予測クラスの算出
     if use_vgg == 1:
         predictions = model.predict(pre_x)
         results = decode_predictions(predictions, top=5)[0]
 
         class_idx = np.argmax(results)
 
-    else :
+    else:
         x = x.reshape(x.shape[0], 64, 64, 3)
 
-        predictions = model.predict(pre_x)
+        predictions = model.predict(x)
         class_idx = np.argmax(predictions[0])
 
     # 勾配を取得
-    conv_output = model.get_layer(layer_name).output
-    class_output = model.output[:, class_idx]
+    for i in 5:
+        conv_output = model.get_layer(layer_name).output
+        class_output = model.output[:, class_idx]
 
-    grads = k.gradients(class_output, conv_output)[0]
-    gradient_function = k.function([model.layers[0].input], [conv_output, grads])
+        grads = k.gradients(class_output, conv_output)[0]
+        gradient_function = k.function([model.layers[0].input], [conv_output, grads])
 
-    output, grads_val = gradient_function([pre_x])
-    output, grads_val = output[0], grads_val[0]
+        output, grads_val = gradient_function([pre_x])
+        output, grads_val = output[0], grads_val[0]
 
-    weights = np.mean(grads_val, axis=(0, 1))
-    cam = np.dot(output, weights)
+        weights = np.mean(grads_val, axis=(0, 1))
+        cam = np.dot(output, weights)
 
-    # if use_vgg == 1:
-    cam = cv2.resize(cam, (224, 224))
+        if use_vgg == 1:
+            cam = cv2.resize(cam, (224, 224))
 
-    cam = np.maximum(cam, 0)
+        cam = np.maximum(cam, 0)
 
     if use_vgg == 1:
         return cam, results
 
-    else :
+    else:
         return cam, class_idx

@@ -11,6 +11,7 @@ from PIL import Image
 import io
 import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
+from tensorflow.python.keras.preprocessing import image
 
 config = tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=True))
 session = tf.Session(config=config)
@@ -19,10 +20,12 @@ set_session(session)
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def index():
     username = 'snowsphere'
     return render_template('index.html', username=username)
+
 
 @app.route('/result', methods=['POST'])
 def result():
@@ -31,11 +34,10 @@ def result():
 
         upload_file = request.files['imageFile'].read()
 
-        # TODO: ボタンの入力から変数の値を変える
         if request.form['use_model'] == '1':
             use_vgg = 1
 
-        else :
+        else:
             use_vgg = 0
 
         # 前処理 & 推論 部分へ
@@ -59,26 +61,26 @@ def result():
     else:
         return redirect(url_for('index'))
 
+
 def get_answer(req, use_vgg):
     # 元画像をデコード
     img_bistream = io.BytesIO(req)
-    img_pil = Image.open(img_bistream)
-    img_numpy = np.asarray(img_pil)
-    img_original = cv2.cvtColor(img_numpy, cv2.COLOR_RGB2BGR)
-    img_original = cv2.resize(img_original, (224, 224))
 
-    array = np.fromstring(req, np.uint8)
-    img_src = cv2.imdecode(array, cv2.IMREAD_COLOR)
-
-    # img_roll = 255 - img_src
-    # img_gray = cv2.cvtColor(img_roll, cv2.COLOR_BGR2GRAY)
     if use_vgg == 1:
         resize_size = 224
     else:
         resize_size = 64
 
-    img_resize = cv2.resize(img_src, (resize_size, resize_size))
-    cam, score = predict.gradcam(img_resize, use_vgg)
+    # img_numpy = np.asarray(img_pil)
+    # img_original = cv2.cvtColor(img_numpy, cv2.COLOR_RGB2BGR)
+    # img_original = cv2.resize(img_original, (224, 224))
+
+    img_keras = image.load_img(img_bistream, target_size=(resize_size, resize_size))
+    img_tensor = image.img_to_array(img_keras)
+    # img_prend = cv2.imdecode(img_tensor, cv2.IMREAD_COLOR)
+
+    # 推論を実行
+    cam, score = predict.gradcam(img_tensor, use_vgg)
     cam = cam / cam.max()
 
     heat = cv2.applyColorMap(np.uint8(255 * cam), cv2.COLORMAP_JET)
@@ -86,12 +88,13 @@ def get_answer(req, use_vgg):
     heat = cv2.cvtColor(heat, cv2.COLOR_BGR2RGB)
 
     # /2 すると単純に変化が見やすくなる
-    heat = np.float32(heat) + np.float32(img_original)
+    heat = np.float32(heat) + np.float32(img_keras)
 
     # どこかで255をかけていない
     heat = 255 * heat / np.max(heat)
 
     return score, heat
+
 
 if __name__ == "__main__":
     # app.debug = True
