@@ -6,6 +6,8 @@ $(function(){
 
         $('#result').html(data.class_name);
         $('#accuracy').html(data.score);
+
+        $('.prediction').css("background-color", "#d10d3f")
     };
 
     var failedResult = function (data, result) {
@@ -38,7 +40,7 @@ $(function(){
 
     };
 
-    $('#input_img').change(fileChange);
+    $('#prediction-btn').click(fileChange);
 });
 
 $('#use_vgg16').click(function () {
@@ -49,8 +51,14 @@ function reset() {
     let elements = document.querySelectorAll("#accuracy");
         elements.forEach(el => {
             el.innerText = '-';
-            el.parentNode.classList.remove('is-selected');
-            canvas.clearRect(0,0,250,250);
-        })
+            canvas.clearRect(0,0,224,224);
+        });
+
+    let elements2 = document.querySelectorAll("#result");
+        elements2.forEach(el => {
+            el.innerText = '-';
+        });
+    $('#cam_img').attr("src", "");
+    $('.prediction').css("background-color", "#696969")
 }
 

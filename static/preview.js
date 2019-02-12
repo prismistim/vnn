@@ -11,7 +11,7 @@ $('#input_img').change(function() {
 
         reader.onload = function(evt) {
             image.onload = function() {
-            canvas.drawImage(image, 0, 0, 250, 250);
+            canvas.drawImage(image, 0, 0, 224, 224);
             };
             image.src = evt.target.result;
         };

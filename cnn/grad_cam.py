@@ -10,12 +10,12 @@ import numpy as np
 import keras
 import sys
 import cv2
-from keras.backend.tensorflow_backend import set_session
-
-config = tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=True))
-session = tf.Session(config=config)
-config.gpu_options.visible_device_list = "0,1"
-set_session(session)
+# from keras.backend.tensorflow_backend import set_session
+#
+# config = tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=True))
+# session = tf.Session(config=config)
+# config.gpu_options.visible_device_list = "0,1"
+# set_session(session)
 
 def target_category_loss(x, category_index, nb_classes):
     return tf.multiply(x, K.one_hot([category_index], nb_classes))
@@ -30,7 +30,7 @@ def normalize(x):
 def load_image(x):
     #img_path = sys.argv[1]
     # img_path = path
-    img = image.load_img(img_path, target_size=(224, 224))
+    img = image.load_img(x, target_size=(224, 224))
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
     x = preprocess_input(x)
@@ -131,6 +131,7 @@ def grad_cam(input_model, image, category_index, layer_name):
     return np.uint8(cam), heatmap
 
 def main(x):
+    K.clear_session()
     preprocessed_input = load_image(x)
     #preprocessed_input = load_image("./examples/boat.jpg")
 

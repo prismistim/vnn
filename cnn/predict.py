@@ -24,13 +24,13 @@ def gradcam(x, use_vgg):
     model.summary()
 
     pre_x = np.expand_dims(x, axis=0)
-    pre_x = pre_x.astype('float32')
-    pre_x = pre_x / 255.0
+    pre_x = preprocess_input(pre_x)
 
     # 推論/予測クラスの算出
     if use_vgg == 1:
         predictions = model.predict(pre_x)
         results = decode_predictions(predictions, top=5)[0]
+        print(results)
 
         class_idx = np.argmax(results)
 
@@ -41,23 +41,24 @@ def gradcam(x, use_vgg):
         class_idx = np.argmax(predictions[0])
 
     # 勾配を取得
-    for i in 5:
-        conv_output = model.get_layer(layer_name).output
-        class_output = model.output[:, class_idx]
+    conv_output = model.get_layer(layer_name).output
 
-        grads = k.gradients(class_output, conv_output)[0]
-        gradient_function = k.function([model.layers[0].input], [conv_output, grads])
+    # class_idxはforの場合iに置き換える(単純に結果に対して番号を
+    class_output = model.output[:, class_idx]
 
-        output, grads_val = gradient_function([pre_x])
-        output, grads_val = output[0], grads_val[0]
+    grads = k.gradients(class_output, conv_output)[0]
+    gradient_function = k.function([model.layers[0].input], [conv_output, grads])
 
-        weights = np.mean(grads_val, axis=(0, 1))
-        cam = np.dot(output, weights)
+    output, grads_val = gradient_function([pre_x])
+    output, grads_val = output[0], grads_val[0]
 
-        if use_vgg == 1:
-            cam = cv2.resize(cam, (224, 224))
+    weights = np.mean(grads_val, axis=(0, 1))
+    cam = np.dot(output, weights)
 
-        cam = np.maximum(cam, 0)
+    if use_vgg == 1:
+        cam = cv2.resize(cam, (224, 224))
+
+    cam = np.maximum(cam, 0)
 
     if use_vgg == 1:
         return cam, results

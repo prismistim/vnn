@@ -23,7 +23,9 @@ header{
 }
 
 .box{
-    width: 95%;
+    width: 49%;
+    display: inline-block;
+    vertical-align: top;
     margin: auto;
     margin-bottom: 20px;
     padding: 5px;
@@ -34,10 +36,8 @@ header{
 }
 
 .section{
-    display: inline-block;
-    vertical-align: top;
-    width: 45%;
-    margin: 0 2.4% 40px;
+    width: 100%;
+    margin: 0 0 20px;
 }
 
 h3.job-title{
@@ -93,6 +93,10 @@ label.btn{
     text-decoration: #FFFFFF;
 }
 
+label.btn.btn-info{
+    background-color: rgb(71, 179, 255);
+}
+
 table{
     width: 100%;
 }
@@ -107,22 +111,26 @@ th{
 }
 
 td span{
-    font-size: 1.2em;
+    font-size: 1.4em;
+    text-decoration-line: underline;
 }
 
 .preview_zone{
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .cam_result, .input_preview{
-    width: 100%;
+    width: 45%;
+    height: 230px;
+    display: inline-block;
+    vertical-align: top;
     margin-bottom: 10px;
     background-color: #EFEFEF;
     text-align: center;
 }
 
 .result_img{
-    margin: 10px;
 }
 
 .copyright{

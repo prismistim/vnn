@@ -37,7 +37,16 @@ def result():
 
         if request.form['use_model'] == '1':
             use_vgg = 1
-            score, gene_image = get_answer(upload_file, use_vgg)
+            score, gene_image_array = get_answer(upload_file, use_vgg)
+            gene_image_array = cv2.cvtColor(gene_image_array, cv2.COLOR_RGB2BGR)
+
+            gene_image = Image.fromarray(np.uint8(gene_image_array))
+            gene_image.save('/home/murashige/Workspace/vnn/result.png')
+            gene_buf = io.BytesIO()
+
+            gene_image.save(gene_buf, format="PNG")
+
+            gene_image = gene_buf.getvalue()
 
         else:
             use_vgg = 0
@@ -59,7 +68,7 @@ def result():
         score_str = str(round(score[2], 4))
         print(score_str)
 
-        return jsonify(gene_image_data=gene_image_data, class_name=score[0], score=score_str)
+        return jsonify(gene_image_data=gene_image_data, class_name=score[1], score=score_str)
 
     else:
         return redirect(url_for('index'))
