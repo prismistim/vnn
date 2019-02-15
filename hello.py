@@ -14,10 +14,10 @@ import tensorflow as tf
 from keras.backend.tensorflow_backend import set_session
 from tensorflow.python.keras.preprocessing import image
 
-config = tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=True))
-session = tf.Session(config=config)
-config.gpu_options.visible_device_list = "0,1"
-set_session(session)
+# config = tf.ConfigProto(gpu_options=tf.GPUOptions(allow_growth=True))
+# session = tf.Session(config=config)
+# config.gpu_options.visible_device_list = "0,1"
+# set_session(session)
 
 app = Flask(__name__)
 
@@ -41,7 +41,6 @@ def result():
             gene_image_array = cv2.cvtColor(gene_image_array, cv2.COLOR_RGB2BGR)
 
             gene_image = Image.fromarray(np.uint8(gene_image_array))
-            gene_image.save('/home/murashige/Workspace/vnn/result.png')
             gene_buf = io.BytesIO()
 
             gene_image.save(gene_buf, format="PNG")
@@ -55,7 +54,6 @@ def result():
             score, gene_image_array = get_answer(upload_file, use_vgg)
 
             gene_image = Image.fromarray(np.uint8(gene_image_array))
-            gene_image.save('/home/murashige/Workspace/vnn/result.png')
             gene_buf = io.BytesIO()
 
             gene_image.save(gene_buf, format="PNG")
@@ -116,4 +114,4 @@ def get_answer(req, use_vgg):
 
 if __name__ == "__main__":
     # app.debug = True
-    app.run(host="192.168.13.117", port=5550)
+    app.run()
