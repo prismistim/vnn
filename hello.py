@@ -111,7 +111,6 @@ def get_answer(req, use_vgg):
 
         return score, heat
 
-
 if __name__ == "__main__":
     # app.debug = True
     app.run()
