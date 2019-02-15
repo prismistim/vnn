@@ -1,0 +1,14 @@
+Flask==0.12.2
+h5py==2.7.1
+html5lib==0.9999999
+Jinja2==2.10
+Keras==2.1.4
+Markdown==2.6.11
+matplotlib==2.2.2
+numpy==1.14.1
+opencv-python==4.0.0.21
+Pillow==5.1.0
+pip-review==1.0
+PyYAML==3.12
+requests==2.18.4
+tensorflow==1.8.0
