@@ -20,34 +20,31 @@
     <main>
       <div class="container">
         <div class="section">
-          <!-- {% if username %}
-            <p>Hello! {{username}}</p>
-          {% endif %} -->
           <div class="box">
-            <h3 class="job-title">1. Load trained model</h3>
+            <h3 class="job-title">モデルを選択</h3>
             <div class="btn-group btn-group-toggle" data-toggle="buttons" id="use_model">
               <label class="btn btn-info">
-                <input type="radio" name="model_select" id="use_vgg" value="vgg">VGG16
+                <input type="radio" name="model_select" id="use_vgg" value="vgg" checked>VGG16
               </label>
               <label class="btn btn-light">
-                <input type="radio" name="model_select" id="use_original" value="ori">Original model
+                <input type="radio" name="model_select" id="use_original" value="ori">自作モデル
               </label>
             </div>
             <input class="btn btn-default" type="file">
           </div>
           <div class="box">
-            <h3 class="job-title">2. Input a image</h3>
+            <h3 class="job-title">画像を入力</h3>
             <form class="ajax_submit" action="/result">
               <input name="input_img" class="btn btn-default" type="file" accept="image/*" id="input_img" >
             </form>
             <div class="control">
-              <button class="btn btn-danger" id="reset-btn" onclick="reset()">reset</button>
-              <button class="btn btn-success" id="prediction-btn" onclick="prediction()">predict</button>
+              <button class="btn btn-danger" id="reset-btn" onclick="reset()">リセット</button>
+              <button class="btn btn-success" id="prediction-btn" onclick="prediction()">推論</button>
             </div>
           </div>
         </div>
         <div class="section">
-          <h3 class="job-title">3. Visualized prediction result with Grad-cam</h3>
+          <h3 class="job-title">推論結果 / Grad-Cam 結果</h3>
           <div class="preview_zone">
             <div class="input_preview">
               <canvas id="preview" width="250px" height="250px"></canvas>

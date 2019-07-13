@@ -21,46 +21,31 @@ set_session(session)
 
 app = Flask(__name__)
 
-
 @app.route('/')
 def index():
-    username = 'snowsphere'
-    return render_template('index.html', username=username)
-
+    return render_template('index.html')
 
 @app.route('/result', methods=['POST'])
 def result():
     if request.method == 'POST':
-        print(request.args)
-
         upload_file = request.files['imageFile'].read()
+        # TODO: modelファイルの読み込み
 
         if request.form['use_model'] == '1':
             use_vgg = 1
-            score, gene_image_array = get_answer(upload_file, use_vgg)
-            gene_image_array = cv2.cvtColor(gene_image_array, cv2.COLOR_RGB2BGR)
+        else :
+            use_vgg = o
 
-            gene_image = Image.fromarray(np.uint8(gene_image_array))
-            gene_image.save('/home/murashige/Workspace/vnn/result.png')
-            gene_buf = io.BytesIO()
+        score, gene_image_array = get_answer(upload_file, use_vgg)
+        gene_image_array = cv2.cvtColor(gene_image_array, cv2.COLOR_RGB2BGR)
 
-            gene_image.save(gene_buf, format="PNG")
+        gene_image = Image.fromarray(np.uint8(gene_image_array))
+        # gene_image.save('./img/temp/result.png')
+        gene_buf = io.BytesIO()
 
-            gene_image = gene_buf.getvalue()
+        gene_image.save(gene_buf, format="PNG")
 
-        else:
-            use_vgg = 0
-
-            # 前処理 & 推論 部分へ
-            score, gene_image_array = get_answer(upload_file, use_vgg)
-
-            gene_image = Image.fromarray(np.uint8(gene_image_array))
-            gene_image.save('/home/murashige/Workspace/vnn/result.png')
-            gene_buf = io.BytesIO()
-
-            gene_image.save(gene_buf, format="PNG")
-
-            gene_image = gene_buf.getvalue()
+        gene_image = gene_buf.getvalue()
 
         gene_b64 = base64.b64encode(gene_image).decode("utf-8")
         gene_image_data = "data:image/png;base64,{}".format(gene_b64)
@@ -80,12 +65,9 @@ def get_answer(req, use_vgg):
 
     if use_vgg == 1:
         resize_size = 224
+        model = VGG16(weights="imagenet")
     else:
         resize_size = 64
-
-    # img_numpy = np.asarray(img_pil)
-    # img_original = cv2.cvtColor(img_numpy, cv2.COLOR_RGB2BGR)
-    # img_original = cv2.resize(img_original, (224, 224))
 
     img_keras = image.load_img(img_bistream, target_size=(resize_size, resize_size))
     img_tensor = image.img_to_array(img_keras)
@@ -116,4 +98,4 @@ def get_answer(req, use_vgg):
 
 if __name__ == "__main__":
     # app.debug = True
-    app.run(host="192.168.13.117", port=5550)
+    app.run(host="0.0.0.0", port=7000)

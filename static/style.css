@@ -1,7 +1,8 @@
-@import url('https://fonts.googleapis.com/css?family=Ubuntu:300,400,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap');
 
 body{
-    font-family: "Ubuntu", sans-serif;
+    font-family: "Roboto", "Noto Sans JP", sans-serif;
 }
 
 a.title{
@@ -23,7 +24,7 @@ header{
 }
 
 .box{
-    width: 49%;
+    width: 95%;
     display: inline-block;
     vertical-align: top;
     margin: auto;
@@ -122,7 +123,7 @@ td span{
 
 .cam_result, .input_preview{
     width: 45%;
-    height: 230px;
+    height: 25vw;
     display: inline-block;
     vertical-align: top;
     margin-bottom: 10px;
