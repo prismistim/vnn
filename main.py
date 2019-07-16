@@ -32,21 +32,20 @@ def result():
         # TODO: modelファイルの読み込み
 
         if request.form['use_model'] == '1':
-            use_vgg = 1
+            model = 'vgg'
         else :
-            use_vgg = o
+            model = ''
 
-        score, gene_image_array = get_answer(upload_file, use_vgg)
+        # 推論結果を取得
+        score, gene_image_array = get_answer(upload_file, model)
+
+        # array to Image
         gene_image_array = cv2.cvtColor(gene_image_array, cv2.COLOR_RGB2BGR)
-
         gene_image = Image.fromarray(np.uint8(gene_image_array))
         # gene_image.save('./img/temp/result.png')
+
         gene_buf = io.BytesIO()
-
-        gene_image.save(gene_buf, format="PNG")
-
         gene_image = gene_buf.getvalue()
-
         gene_b64 = base64.b64encode(gene_image).decode("utf-8")
         gene_image_data = "data:image/png;base64,{}".format(gene_b64)
 
@@ -58,42 +57,22 @@ def result():
     else:
         return redirect(url_for('index'))
 
-
-def get_answer(req, use_vgg):
+def get_answer(req, model):
     # 元画像をデコード
     img_bistream = io.BytesIO(req)
 
-    if use_vgg == 1:
+    if model == 'vgg':
         resize_size = 224
-        model = VGG16(weights="imagenet")
     else:
         resize_size = 64
 
     img_keras = image.load_img(img_bistream, target_size=(resize_size, resize_size))
-    img_tensor = image.img_to_array(img_keras)
+    # img_tensor = image.img_to_array(img_keras)
     # img_prend = cv2.imdecode(img_tensor, cv2.IMREAD_COLOR)
 
-    # 推論を実行
-    if use_vgg == 1:
-        cam, score = grad_cam.main(img_bistream)
+    score, cam = predict.predict(img_keras, model)
 
-        return score, cam
-
-    else:
-        cam, score = predict.gradcam(img_tensor, use_vgg)
-        cam = cam / cam.max()
-
-        heat = cv2.applyColorMap(np.uint8(255 * cam), cv2.COLORMAP_JET)
-        # heat = cv2.resize(heat, (img_original.shape[1], img_original.shape[0]), cv2.INTER_LINEAR)
-        heat = cv2.cvtColor(heat, cv2.COLOR_BGR2RGB)
-
-        # /2 すると単純に変化が見やすくなる
-        heat = np.float32(heat) + np.float32(img_keras)
-
-        # どこかで255をかけていない
-        heat = 255 * heat / np.max(heat)
-
-        return score, heat
+    return score, cam
 
 
 if __name__ == "__main__":

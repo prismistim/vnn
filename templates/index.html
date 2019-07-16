@@ -14,59 +14,59 @@
     <title>VNN</title>
   </head>
   <body>
-    <header class="text-center">
+    <div class="header text-center">
       <a class="title" href="#">VNN</a>
-    </header>
-    <main>
-      <div class="container">
-        <div class="section">
-          <div class="box">
-            <h3 class="job-title">モデルを選択</h3>
-            <div class="btn-group btn-group-toggle" data-toggle="buttons" id="use_model">
-              <label class="btn btn-info">
-                <input type="radio" name="model_select" id="use_vgg" value="vgg" checked>VGG16
-              </label>
-              <label class="btn btn-light">
-                <input type="radio" name="model_select" id="use_original" value="ori">自作モデル
-              </label>
-            </div>
-            <input class="btn btn-default" type="file">
-          </div>
-          <div class="box">
-            <h3 class="job-title">画像を入力</h3>
-            <form class="ajax_submit" action="/result">
-              <input name="input_img" class="btn btn-default" type="file" accept="image/*" id="input_img" >
-            </form>
-            <div class="control">
-              <button class="btn btn-danger" id="reset-btn" onclick="reset()">リセット</button>
-              <button class="btn btn-success" id="prediction-btn" onclick="prediction()">推論</button>
-            </div>
-          </div>
+    </div>
+
+    <div class="container">
+
+      <div class="section">
+        <h3 class="job-title">画像を入力</h3>
+        <form class="ajax_submit" action="/result">
+          <input name="input_img" class="btn btn-default" type="file" accept="image/*" id="input_img" >
+        </form>
+      </div>
+
+      <div class="section">
+        <h3 class="job-title">モデルを選択</h3>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons" id="use_model">
+          <label class="btn btn-info">
+            <input type="radio" name="model_select" id="use_vgg" value="vgg" checked>VGG16
+          </label>
+          <label class="btn btn-light">
+            <input type="radio" name="model_select" id="use_original" value="ori">自作モデル
+          </label>
         </div>
-        <div class="section">
-          <h3 class="job-title">推論結果 / Grad-Cam 結果</h3>
-          <div class="preview_zone">
-            <div class="input_preview">
-              <canvas id="preview" width="250px" height="250px"></canvas>
-            </div>
-            <div class="cam_result">
-              <img id="cam_img" class="result_img">
-            </div>
-          </div>
-          <div class="prediction">
-            <h4 class="sub-title">Prediction Result</h4>
-            <table>
-              <tr>
-                <th>Image class: </th>
-                <td><span id="result">-</span></td>
-                <th>Accuracy: </th>
-                <td><span id="accuracy">-</span></td>
-              </tr>
-            </table>
-          </div>
+        <div class="control">
+          <button class="btn btn-danger" id="reset-btn" onclick="reset()">リセット</button>
+          <button class="btn btn-success" id="prediction-btn" onclick="prediction()">推論</button>
         </div>
       </div>
-    </main>
+
+      <div class="section">
+        <h3 class="job-title">推論結果 / Grad-Cam 結果</h3>
+        <div class="preview_zone">
+          <div class="input_preview">
+            <canvas id="preview" width="250px" height="250px"></canvas>
+          </div>
+          <div class="cam_result">
+            <img id="cam_img" class="result_img">
+          </div>
+        </div>
+        <div class="prediction">
+          <h4 class="sub-title">Prediction Result</h4>
+          <table>
+            <tr>
+              <th>Image class: </th>
+              <td><span id="result">-</span></td>
+              <th>Accuracy: </th>
+              <td><span id="accuracy">-</span></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <footer>
       <div class="copyright">© 2018-2019 snowsphere</div>
     </footer>

@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans+JP&display=swap');
+@import url('https://fonts.googleapis.com/css?family=M+PLUS+1p&display=swap');
 
 body{
-    font-family: "Roboto", "Noto Sans JP", sans-serif;
+    font-family: "M PLUS 1p", sans-serif;
 }
 
 a.title{
@@ -16,7 +17,7 @@ a.title:hover{
     color: #ec1153;
 }
 
-header{
+.header{
     padding: 15px 0;
     margin-bottom: 10px;
     background-color: #424242;
