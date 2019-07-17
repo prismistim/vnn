@@ -5,7 +5,7 @@ window.onload = () => {
 }
 
 $(function () {
-    var successResult = function (data) {
+    const successResult = (data) => {
         $('#cam_img').attr("src", data.gene_image_data);
 
         $('#result').html(data.class_name);
@@ -14,11 +14,11 @@ $(function () {
         $('.prediction').css("background-color", "#d10d3f")
     };
 
-    var failedResult = function (data, result) {
+    const failedResult = (data, result) => {
         alert("Error");
     };
 
-    var fileChange = function (evt) {
+    const fileChange = (evt) => {
         let model_select = $("input[name='model_select']:checked").val();
 
         if (model_select === 'vgg') {

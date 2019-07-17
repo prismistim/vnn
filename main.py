@@ -36,23 +36,25 @@ def result():
         else :
             model = ''
 
+        model = ''
+
         # 推論結果を取得
         score, gene_image_array = get_answer(upload_file, model)
 
         # array to Image
         gene_image_array = cv2.cvtColor(gene_image_array, cv2.COLOR_RGB2BGR)
         gene_image = Image.fromarray(np.uint8(gene_image_array))
-        # gene_image.save('./img/temp/result.png')
+        gene_image.save('./img/temp/result.png')
 
         gene_buf = io.BytesIO()
+        gene_image.save(gene_buf, format="PNG")
         gene_image = gene_buf.getvalue()
         gene_b64 = base64.b64encode(gene_image).decode("utf-8")
         gene_image_data = "data:image/png;base64,{}".format(gene_b64)
 
-        score_str = str(round(score[2], 4))
-        print(score_str)
+        score_str = str(round(score[0][2], 4))
 
-        return jsonify(gene_image_data=gene_image_data, class_name=score[1], score=score_str)
+        return jsonify(gene_image_data=gene_image_data, class_name=score[0][1], score=score_str)
 
     else:
         return redirect(url_for('index'))
@@ -64,11 +66,14 @@ def get_answer(req, model):
     if model == 'vgg':
         resize_size = 224
     else:
-        resize_size = 64
+        resize_size = 48
 
     img_keras = image.load_img(img_bistream, target_size=(resize_size, resize_size))
-    # img_tensor = image.img_to_array(img_keras)
-    # img_prend = cv2.imdecode(img_tensor, cv2.IMREAD_COLOR)
+
+    # if model == 'vgg':
+    #     img_prend = cv2.imdecode(img_keras, cv2.IMREAD_COLOR)
+    # else:
+    #     img_keras = cv2.cvtColor(np.float32(img_keras), cv2.COLOR_RGB2GRAY)
 
     score, cam = predict.predict(img_keras, model)
 

@@ -11,7 +11,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <title>VNN</title>
+    <title>vnn -visualize neural network-</title>
   </head>
   <body>
     <div class="header text-center">
@@ -28,7 +28,7 @@
       </div>
 
       <div class="section">
-        <h3 class="job-title">モデルを選択</h3>
+        <h3 class="job-title">モデル選択 / 実行</h3>
         <div class="btn-group btn-group-toggle" data-toggle="buttons" id="use_model">
           <label class="btn btn-info">
             <input type="radio" name="model_select" id="use_vgg" value="vgg" checked>VGG16
@@ -38,8 +38,8 @@
           </label>
         </div>
         <div class="control">
-          <button class="btn btn-danger" id="reset-btn" onclick="reset()">リセット</button>
-          <button class="btn btn-success" id="prediction-btn" onclick="prediction()">推論</button>
+          <button class="btn btn-info" id="reset-btn" onclick="reset()">自作モデルで実行</button>
+          <button class="btn btn-success" id="prediction-btn">VGG16で実行</button>
         </div>
       </div>
 
@@ -54,12 +54,12 @@
           </div>
         </div>
         <div class="prediction">
-          <h4 class="sub-title">Prediction Result</h4>
+          <h4 class="sub-title">推論結果</h4>
           <table>
             <tr>
-              <th>Image class: </th>
+              <th>判別クラス: </th>
               <td><span id="result">-</span></td>
-              <th>Accuracy: </th>
+              <th>正確率: </th>
               <td><span id="accuracy">-</span></td>
             </tr>
           </table>
