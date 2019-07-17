@@ -21,8 +21,10 @@ $(function () {
     const fileChange = (evt) => {
         let model_select = $("input[name='model_select']:checked").val();
 
-        if (model_select === 'vgg') {
-            use_vgg = 1;
+        use_vgg = 0
+
+        if (model_select === 'orginal') {
+            use_vgg = 0;
         }
 
         var fileOb = $("#input_img")[0].files[0];
